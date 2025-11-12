@@ -1,6 +1,6 @@
 if(process.env.NODE_ENV != "production"){
    require('dotenv').config();
-}
+};
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -38,6 +38,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
 app.engine('ejs',ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
+app.use(express.json());
 
 const store =  MongoStore.create({
     mongoUrl: dbUrl,
@@ -46,7 +47,7 @@ const store =  MongoStore.create({
     },
     touchAfter: 24 * 3600,
 });
-store.on("error",()=>{
+store.on("error",(err)=>{
     console.log("Error in MONGO SESSION STORE", err);
 });
 
